@@ -13,7 +13,6 @@ void MainWindow::initUI() {
     central->setLayout(layout);
 
     editor = new QLabel("Main workspace");
-    console = new QLabel("Console / Output");
 
     //Split config and interface
     splitter = new QSplitter(Qt::Vertical, this);

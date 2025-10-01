@@ -25,7 +25,17 @@ public:
     void toggleGpu(bool useGpu);
 
 
+public:
+    static void initDevices(QComboBox *combo_box);
+
+
+
+
 private:
+    QWidget *left;
+    QWidget *center;
+    QWidget *right;
+
     QVBoxLayout *layout;
     QSpinBox *widthSpin;
     QSpinBox *heightSpin;
@@ -43,7 +53,7 @@ private:
 
 
     void initMaze();
-    static void initDevices(QComboBox *combo_box);
+
 
 };
 
