@@ -1,0 +1,8 @@
+//
+// Created by rayya on 2025-10-01.
+//
+
+#ifndef MYQTCUDAPROJECT_MAZE_H
+#define MYQTCUDAPROJECT_MAZE_H
+
+#endif //MYQTCUDAPROJECT_MAZE_H
