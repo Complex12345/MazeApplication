@@ -19,6 +19,8 @@
 #include <QApplication>
 #include <QTextStream>
 
+#include "MazeConfigurationGui.h"
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -31,6 +33,7 @@ private:
     QSplitter *splitter = nullptr;
     QWidget *maze = nullptr;
     QWidget *configuration = nullptr;
+    MazeConfigurationGui *mazeConfig = nullptr;
 
     void initUI();
 
