@@ -12,26 +12,29 @@
 
 #include "SystemInfo.h"
 
+/*!
+    \class MazeConfigurationGui
+    \brief The MazeConfigurationGui class shows the configuration GUI to use application
+*/
+
 MazeConfigurationGui::MazeConfigurationGui(QWidget *parent)
     : QWidget(parent) {
-    initMaze();
+    init_maze();
 }
 
-
 // Device Initialization
-void MazeConfigurationGui::initDevices(QComboBox *combo_box) {
-    const std::string cpuName = getCpuName();
-    combo_box->addItem(QString::fromStdString(cpuName));
+void MazeConfigurationGui::init_devices(QComboBox *combo_box) {
+    const std::string cpu_name = getCpuName();
+    combo_box->addItem(QString::fromStdString(cpu_name));
 
-    const std::vector<std::string> gpuNames = getGpuNames();
-    for (const auto &gpuName : gpuNames) {
-        combo_box->addItem(QString::fromStdString(gpuName));
+    const std::vector<std::string> gpu_names = getGpuNames();
+    for (const auto &gpu_name : gpu_names) {
+        combo_box->addItem(QString::fromStdString(gpu_name));
     }
 }
 
-
 // Debug
-static void debugWidget(const QList<QWidget *> &widgets) {
+inline void debug_widget(const QList<QWidget *> &widgets) {
     QStringList colors = {"lightblue", "lightgreen", "lightcoral"};
     for (int i = 0; i < widgets.size(); ++i) {
         widgets[i]->setStyleSheet("background-color: " + colors[i] + ";");
@@ -39,77 +42,77 @@ static void debugWidget(const QList<QWidget *> &widgets) {
 }
 
 // Left Panel
-void MazeConfigurationGui::initLeftWidget(QWidget *left_widget) {
-    auto *left_layout = new QVBoxLayout(left_widget);
-    devices = new QComboBox(left_widget);
-    initDevices(devices);
-    left_layout->addWidget(devices);
+void MazeConfigurationGui::init_left_panel(QWidget *left_panel_widget) {
+    auto *left_layout = new QVBoxLayout(left_panel_widget);
+    devices_box = new QComboBox(left_panel_widget);
+    init_devices(devices_box);
+    left_layout->addWidget(devices_box);
 }
 
 // Center Panel
-void MazeConfigurationGui::initSeedMenu(QVBoxLayout *centerLayout) {
-    // create new widget to containerize widgets
-    auto *widget = new QWidget(centerLayout->parentWidget());
-    auto *horizontalLayout = new QHBoxLayout(widget);
+void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
+    // container widget
+    auto *container_widget = new QWidget(center_layout->parentWidget());
+    auto *horizontal_layout = new QHBoxLayout(container_widget);
 
-    // seed input adn validator
-    auto *validator = new QIntValidator(0, INT32_MAX, widget);
-    auto *seedInput = new QLineEdit(widget);
-    seedInput->setValidator(validator);
+    //seed label
+    auto *seed_label = new QLabel("Seed:", container_widget);
+
+    // seed input + validator
+    auto *validator = new QIntValidator(0, INT32_MAX, container_widget);
+    auto *seed_input = new QLineEdit(container_widget);
+    seed_input->setValidator(validator);
 
     // generate random seed button
-    generateButton = new QPushButton("Generate", widget);
+    generate_button = new QPushButton("Generate", container_widget);
 
-    connect(generateButton, &QPushButton::clicked, this, [seedInput, validator]() {
+    connect(generate_button, &QPushButton::clicked, this, [seed_input, validator]() {
         const int min = validator->bottom();
         const int max = validator->top();
-
         const int seed = QRandomGenerator::global()->bounded(min, max);
-
-        seedInput->setText(QString::number(seed));
+        seed_input->setText(QString::number(seed));
     });
 
 
-    horizontalLayout->addWidget(seedInput);
-    horizontalLayout->addWidget(generateButton);
-
-    centerLayout->addWidget(widget);
+    horizontal_layout->addWidget(seed_label);
+    horizontal_layout->addWidget(seed_input);
+    horizontal_layout->addWidget(generate_button);
+    center_layout->addWidget(container_widget);
 }
 
-void MazeConfigurationGui::initCenterWidget(QWidget *centerWidget) {
+void MazeConfigurationGui::init_center_panel(QWidget *center_widget) {
     std::cout << "init center" << std::endl;
-    auto *centerLayout = new QVBoxLayout(centerWidget);
-    initSeedMenu(centerLayout);
+    auto *center_layout = new QVBoxLayout(center_widget);
+    init_seed_menu(center_layout);
 }
-
 
 // Right Panel
-void MazeConfigurationGui::initRightWidget(QWidget *right_widget) {
-    Q_UNUSED(right_widget);
+void MazeConfigurationGui::init_right_panel(QWidget *right_panel_widget) {
+    Q_UNUSED(right_panel_widget);
     // placeholder
 }
 
 // Main Initialization
-void MazeConfigurationGui::initMaze() {
+void MazeConfigurationGui::init_maze() {
     // Create sections
-    left = new QWidget(this);
-    center = new QWidget(this);
-    right = new QWidget(this);
+    left_panel = new QWidget(this);
+    center_panel = new QWidget(this);
+    right_panel = new QWidget(this);
 
     // Initialize each section
-    initLeftWidget(left);
-    initCenterWidget(center);
-    initRightWidget(right);
+    init_left_panel(left_panel);
+    init_center_panel(center_panel);
+    init_right_panel(right_panel);
 
-    debugWidget({left, center, right});
+    debug_widget({left_panel, center_panel, right_panel});
 
     // Set up layout
-    auto *horizontalLayout = new QHBoxLayout(this);
-    horizontalLayout->addWidget(left);
-    horizontalLayout->addWidget(center);
-    horizontalLayout->addWidget(right);
+    auto *horizontal_layout = new QHBoxLayout(this);
+    horizontal_layout->addWidget(left_panel);
+    horizontal_layout->addWidget(center_panel);
+    horizontal_layout->addWidget(right_panel);
 
-    horizontalLayout->setStretch(0, 1);
-    horizontalLayout->setStretch(1, 2);
-    horizontalLayout->setStretch(2, 1);
+    horizontal_layout->setStretch(0, 1);
+    horizontal_layout->setStretch(1, 2);
+    horizontal_layout->setStretch(2, 1);
 }

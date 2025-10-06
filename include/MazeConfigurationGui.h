@@ -15,42 +15,41 @@ public:
     explicit MazeConfigurationGui(QWidget *parent = nullptr);
 
     signals:
-        void generateMaze(int width, int height, QString algorithm, int seed);
-    void solveMaze(QString algorithm);
-    void setSpeed(int delayMs);
-    void toggleGpu(bool useGpu);
+        void generate_maze(int width, int height, QString algorithm, int seed);
+        void solve_maze(QString algorithm);
+        void set_speed(int delay_ms);
+        void toggle_gpu(bool use_gpu);
 
 public:
-    static void initDevices(QComboBox *combo_box);
+    static void init_devices(QComboBox *combo_box);
 
 private:
     // Core layout sections
-    QWidget *left = nullptr;
-    QWidget *center = nullptr;
-    QWidget *right = nullptr;
+    QWidget *left_panel = nullptr;
+    QWidget *center_panel = nullptr;
+    QWidget *right_panel = nullptr;
 
     // UI elements
-    QVBoxLayout *layout = nullptr;
-    QSpinBox *widthSpin = nullptr;
-    QSpinBox *heightSpin = nullptr;
-    QSpinBox *seedSpin = nullptr;
-    QComboBox *genAlgorithmBox = nullptr;
-    QComboBox *searchAlgorithmBox = nullptr;
-    QComboBox *devices = nullptr;
-    QSlider *speedSlider = nullptr;
-    QCheckBox *gpuCheck = nullptr;
+    QSpinBox *width_spin = nullptr;
+    QSpinBox *height_spin = nullptr;
+    QSpinBox *seed_spin = nullptr;
+    QComboBox *gen_algorithm_box = nullptr;
+    QComboBox *search_algorithm_box = nullptr;
+    QComboBox *devices_box = nullptr;
+    QSlider *speed_slider = nullptr;
+    QCheckBox *gpu_check = nullptr;
 
-    QPushButton *generateButton = nullptr;
-    QPushButton *solveButton = nullptr;
-    QPushButton *pauseButton = nullptr;
-    QPushButton *resetButton = nullptr;
+    QPushButton *generate_button = nullptr;
+    QPushButton *solve_button = nullptr;
+    QPushButton *pause_button = nullptr;
+    QPushButton *reset_button = nullptr;
 
     // Initialization functions
-    void initMaze();
-    void initLeftWidget(QWidget *left_widget);
-    void initCenterWidget(QWidget *centerWidget);
-    void initRightWidget(QWidget *right_widget);
-    void initSeedMenu(QVBoxLayout *centerLayout);
+    void init_maze();
+    void init_left_panel(QWidget *left_panel_widget);
+    void init_center_panel(QWidget *center_widget);
+    void init_right_panel(QWidget *right_panel_widget);
+    void init_seed_menu(QVBoxLayout *center_layout);
 };
 
 #endif // MYQTCUDAPROJECT_MAZECONFIGURATIONGUI_H
