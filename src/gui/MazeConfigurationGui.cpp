@@ -4,6 +4,9 @@
 #include <string>
 #include <array>
 #include <cuda_runtime.h>
+#include <QLabel>
+#include <QTextEdit>
+#include <QLineEdit>
 
 #include "SystemInfo.h"
 
@@ -32,27 +35,56 @@ void debugWidget(QList<QWidget*> widgets) {
     }
 }
 
-void initLeftWidget(QWidget *widget) {
-    auto layout = new QVBoxLayout(widget);
-    auto *devices = new QComboBox(widget);
+void initLeftWidget(QWidget *left) {
+    auto layout = new QVBoxLayout(left);
+    auto *devices = new QComboBox(left);
     MazeConfigurationGui::initDevices(devices);
     layout->addWidget(devices);
 
 }
 
-void initCenterWidget(QWidget *center) {
+void initSeedMenu(QVBoxLayout *centerLayout) {
+    const auto widget = new QWidget();
+    auto *horizontalLayout = new QHBoxLayout(widget);
+
+    const auto *validator = new QIntValidator(INT32_MIN, INT32_MAX, widget);
+    const auto seedInput = new QLineEdit(widget);
+    seedInput->setValidator(validator);
+
+    horizontalLayout->addWidget(seedInput);
+
+    centerLayout->addWidget(widget);
+
+
 
 }
 
+void initCenterWidget(QWidget *center) {
+    std::cout << "init center" << std::endl;
+    auto layout = new QVBoxLayout(center);
+    initSeedMenu(layout);
+
+}
+
+
+
+
 void initRightWidget(QWidget *right) {
+
 
 }
 
 void MazeConfigurationGui::initMaze() {
+    // init widgets
     left = new QWidget(this);
-    initLeftWidget(left);
     center = new QWidget(this);
     right = new QWidget(this);
+
+    //init functions
+    initLeftWidget(left);
+    initCenterWidget(center);
+    initRightWidget(right);
+
     debugWidget({left, center, right});
 
     auto *horizontalLayout = new QHBoxLayout(this);
@@ -60,9 +92,12 @@ void MazeConfigurationGui::initMaze() {
     horizontalLayout->addWidget(center);
     horizontalLayout->addWidget(right);
 
-    horizontalLayout->setStretch(0, 1); // left takes 1 share
-    horizontalLayout->setStretch(1, 2); // center takes 2 shares
-    horizontalLayout->setStretch(2, 1); // right takes 1 share
+    horizontalLayout->setStretch(0, 1);
+    horizontalLayout->setStretch(1, 2);
+    horizontalLayout->setStretch(2, 1);
+
+
+
 
 
     // devices = new QComboBox(this);
