@@ -46,9 +46,9 @@ private:
 
     // Initialization functions
     void init_maze();
-    void init_left_panel(QWidget *left_panel_widget);
-    void init_center_panel(QWidget *center_widget);
-    void init_right_panel(QWidget *right_panel_widget);
+    void init_left_panel();
+    void init_center_panel();
+    void init_right_panel();
     void init_seed_menu(QVBoxLayout *center_layout);
 };
 

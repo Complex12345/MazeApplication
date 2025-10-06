@@ -42,9 +42,9 @@ inline void debug_widget(const QList<QWidget *> &widgets) {
 }
 
 // Left Panel
-void MazeConfigurationGui::init_left_panel(QWidget *left_panel_widget) {
-    auto *left_layout = new QVBoxLayout(left_panel_widget);
-    devices_box = new QComboBox(left_panel_widget);
+void MazeConfigurationGui::init_left_panel() {
+    auto *left_layout = new QVBoxLayout(left_panel);
+    devices_box = new QComboBox(left_panel);
     init_devices(devices_box);
     left_layout->addWidget(devices_box);
 }
@@ -80,15 +80,15 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
     center_layout->addWidget(container_widget);
 }
 
-void MazeConfigurationGui::init_center_panel(QWidget *center_widget) {
+void MazeConfigurationGui::init_center_panel() {
     std::cout << "init center" << std::endl;
-    auto *center_layout = new QVBoxLayout(center_widget);
+    auto *center_layout = new QVBoxLayout(center_panel);
     init_seed_menu(center_layout);
 }
 
 // Right Panel
-void MazeConfigurationGui::init_right_panel(QWidget *right_panel_widget) {
-    Q_UNUSED(right_panel_widget);
+void MazeConfigurationGui::init_right_panel() {
+    Q_UNUSED(right_panel);
     // placeholder
 }
 
@@ -100,9 +100,9 @@ void MazeConfigurationGui::init_maze() {
     right_panel = new QWidget(this);
 
     // Initialize each section
-    init_left_panel(left_panel);
-    init_center_panel(center_panel);
-    init_right_panel(right_panel);
+    init_left_panel();
+    init_center_panel();
+    init_right_panel();
 
     debug_widget({left_panel, center_panel, right_panel});
 
