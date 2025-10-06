@@ -7,16 +7,19 @@
 #include <QLabel>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QIntValidator>
+#include <QRandomGenerator>
 
 #include "SystemInfo.h"
 
-
-MazeConfigurationGui::MazeConfigurationGui(QWidget *parent) : QWidget(parent) {
+MazeConfigurationGui::MazeConfigurationGui(QWidget *parent)
+    : QWidget(parent) {
     initMaze();
 }
 
-void MazeConfigurationGui::initDevices(QComboBox* combo_box) {
 
+// Device Initialization
+void MazeConfigurationGui::initDevices(QComboBox *combo_box) {
     const std::string cpuName = getCpuName();
     combo_box->addItem(QString::fromStdString(cpuName));
 
@@ -27,66 +30,80 @@ void MazeConfigurationGui::initDevices(QComboBox* combo_box) {
 }
 
 
-void debugWidget(QList<QWidget*> widgets) {
+// Debug
+static void debugWidget(const QList<QWidget *> &widgets) {
     QStringList colors = {"lightblue", "lightgreen", "lightcoral"};
-
     for (int i = 0; i < widgets.size(); ++i) {
         widgets[i]->setStyleSheet("background-color: " + colors[i] + ";");
     }
 }
 
-void initLeftWidget(QWidget *left) {
-    auto layout = new QVBoxLayout(left);
-    auto *devices = new QComboBox(left);
-    MazeConfigurationGui::initDevices(devices);
-    layout->addWidget(devices);
-
+// Left Panel
+void MazeConfigurationGui::initLeftWidget(QWidget *left_widget) {
+    auto *left_layout = new QVBoxLayout(left_widget);
+    devices = new QComboBox(left_widget);
+    initDevices(devices);
+    left_layout->addWidget(devices);
 }
 
-void initSeedMenu(QVBoxLayout *centerLayout) {
-    const auto widget = new QWidget();
+// Center Panel
+void MazeConfigurationGui::initSeedMenu(QVBoxLayout *centerLayout) {
+    // create new widget to containerize widgets
+    auto *widget = new QWidget(centerLayout->parentWidget());
     auto *horizontalLayout = new QHBoxLayout(widget);
 
-    const auto *validator = new QIntValidator(INT32_MIN, INT32_MAX, widget);
-    const auto seedInput = new QLineEdit(widget);
+    // seed input adn validator
+    auto *validator = new QIntValidator(0, INT32_MAX, widget);
+    auto *seedInput = new QLineEdit(widget);
     seedInput->setValidator(validator);
 
+    // generate random seed button
+    generateButton = new QPushButton("Generate", widget);
+
+    connect(generateButton, &QPushButton::clicked, this, [seedInput, validator]() {
+        const int min = validator->bottom();
+        const int max = validator->top();
+
+        const int seed = QRandomGenerator::global()->bounded(min, max);
+
+        seedInput->setText(QString::number(seed));
+    });
+
+
     horizontalLayout->addWidget(seedInput);
+    horizontalLayout->addWidget(generateButton);
 
     centerLayout->addWidget(widget);
-
-
-
 }
 
-void initCenterWidget(QWidget *center) {
+void MazeConfigurationGui::initCenterWidget(QWidget *centerWidget) {
     std::cout << "init center" << std::endl;
-    auto layout = new QVBoxLayout(center);
-    initSeedMenu(layout);
-
+    auto *centerLayout = new QVBoxLayout(centerWidget);
+    initSeedMenu(centerLayout);
 }
 
 
-
-
-void initRightWidget(QWidget *right) {
-
-
+// Right Panel
+void MazeConfigurationGui::initRightWidget(QWidget *right_widget) {
+    Q_UNUSED(right_widget);
+    // placeholder
 }
 
+// Main Initialization
 void MazeConfigurationGui::initMaze() {
-    // init widgets
+    // Create sections
     left = new QWidget(this);
     center = new QWidget(this);
     right = new QWidget(this);
 
-    //init functions
+    // Initialize each section
     initLeftWidget(left);
     initCenterWidget(center);
     initRightWidget(right);
 
     debugWidget({left, center, right});
 
+    // Set up layout
     auto *horizontalLayout = new QHBoxLayout(this);
     horizontalLayout->addWidget(left);
     horizontalLayout->addWidget(center);
@@ -95,29 +112,4 @@ void MazeConfigurationGui::initMaze() {
     horizontalLayout->setStretch(0, 1);
     horizontalLayout->setStretch(1, 2);
     horizontalLayout->setStretch(2, 1);
-
-
-
-
-
-    // devices = new QComboBox(this);
-    // initDevices(devices);
-
-
-    // layout = new QVBoxLayout(this);
-    // layout->addWidget(devices);
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
