@@ -20,20 +20,22 @@
 #include <QTextStream>
 
 #include "MazeConfigurationGui.h"
+#include "MazeWidget.h"
 
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
+    MazeWidget *mazeWidget = nullptr;
     QVBoxLayout *layout = nullptr;
     QLabel *editor= nullptr;
     QLabel *console= nullptr;
     QWidget *central = nullptr;
     QSplitter *splitter = nullptr;
-    QWidget *maze = nullptr;
     QWidget *configuration = nullptr;
     MazeConfigurationGui *mazeConfig = nullptr;
+    Maze *maze = nullptr;
 
     void initUI();
 

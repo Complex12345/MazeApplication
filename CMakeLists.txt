@@ -27,6 +27,7 @@ add_executable(MyQtCudaProject
         include/cuda/kernel.cu
         include/MazeGenerator.h
         include/MazeWidget.h
+        src/gui/MazeWidget.cpp
 )
 
 add_executable(testCpuName
