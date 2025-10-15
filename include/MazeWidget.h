@@ -10,14 +10,15 @@ class MazeWidget : public QGraphicsView {
 
 public:
     explicit MazeWidget(const Maze& maze, QWidget* parent = nullptr);
+    void drawMaze(const Maze& maze);
 
 protected:
     void wheelEvent(QWheelEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
+
 private:
-    void drawMaze(const Maze& maze);
     QPoint last_mouse_pos;
     double scale_factor = 1.15;
 };

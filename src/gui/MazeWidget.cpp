@@ -1,5 +1,8 @@
 #include "../include/MazeWidget.h"
 
+#include <iostream>
+#include <ostream>
+#include <qcoreapplication.h>
 #include <QPainter>
 #include <QPainterPath>
 MazeWidget::MazeWidget(const Maze &maze, QWidget *parent)
@@ -14,11 +17,15 @@ MazeWidget::MazeWidget(const Maze &maze, QWidget *parent)
 
 
 void MazeWidget::drawMaze(const Maze &maze) {
-    QGraphicsScene *scene = this->scene();
-    scene->clear();
+    const int cell_size = 10;
+    const int width_px  = maze.getWidth() * cell_size;
+    const int height_px = maze.getHeight() * cell_size;
 
-    QPainterPath path;
-    const int cell_size = 10; // smaller cells render faster
+    QImage image(width_px + 1, height_px + 1, QImage::Format_RGB32);
+    image.fill(Qt::black);
+
+    QPainter painter(&image);
+    painter.setPen(Qt::white);
 
     for (int y = 0; y < maze.getHeight(); ++y) {
         for (int x = 0; x < maze.getWidth(); ++x) {
@@ -28,19 +35,24 @@ void MazeWidget::drawMaze(const Maze &maze) {
             int x1 = x0 + cell_size;
             int y1 = y0 + cell_size;
 
-            if (cell & Maze::NORTH) path.moveTo(x0, y0), path.lineTo(x1, y0);
-            if (cell & Maze::WEST)  path.moveTo(x0, y0), path.lineTo(x0, y1);
-            if (cell & Maze::EAST)  path.moveTo(x1, y0), path.lineTo(x1, y1);
-            if (cell & Maze::SOUTH) path.moveTo(x0, y1), path.lineTo(x1, y1);
+            if (cell & Maze::NORTH) painter.drawLine(x0, y0, x1, y0);
+            if (cell & Maze::WEST)  painter.drawLine(x0, y0, x0, y1);
+            if (cell & Maze::EAST)  painter.drawLine(x1, y0, x1, y1);
+            if (cell & Maze::SOUTH) painter.drawLine(x0, y1, x1, y1);
         }
     }
 
-    QPen pen(Qt::white);
-    pen.setWidth(1);
-    scene->addPath(path, pen);
+    painter.end();
 
-    scene->setSceneRect(0, 0, maze.getWidth() * cell_size, maze.getHeight() * cell_size);
+    // Clear old scene and draw the single pixmap
+    QGraphicsScene *scene = this->scene();
+    scene->clear();
+    scene->addPixmap(QPixmap::fromImage(image));
+
+    scene->setSceneRect(0, 0, width_px + 1, height_px + 1);
+
 }
+
 
 
 void MazeWidget::wheelEvent(QWheelEvent *event) {

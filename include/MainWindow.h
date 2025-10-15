@@ -25,6 +25,8 @@
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
+public:
+    Maze *maze = nullptr;
 
 private:
     MazeWidget *mazeWidget = nullptr;
@@ -35,7 +37,7 @@ private:
     QSplitter *splitter = nullptr;
     QWidget *configuration = nullptr;
     MazeConfigurationGui *mazeConfig = nullptr;
-    Maze *maze = nullptr;
+
 
     void initUI();
 
@@ -44,6 +46,8 @@ private:
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
+    void initialize_maze_configuration();
 };
 
 

@@ -40,14 +40,26 @@ private:
     QSlider *speed_slider = nullptr;
     QCheckBox *gpu_check = nullptr;
 
+    QPushButton *random_button = nullptr;
     QPushButton *generate_button = nullptr;
     QPushButton *solve_button = nullptr;
     QPushButton *pause_button = nullptr;
     QPushButton *reset_button = nullptr;
 
+    enum class gen_algo_type { DFS, PRIM, KRUSKAL };
+
+    const std::map<gen_algo_type, QString> gen_algo_map = {
+        {gen_algo_type::DFS, "Depth-First Search"},
+        {gen_algo_type::PRIM, "Prim's Algorithm"},
+        {gen_algo_type::KRUSKAL, "Kruskal's Algorithm"}
+    };
+
     // Initialization functions
     void init_maze();
     void init_left_panel();
+
+    void init_generation_type_menu(QVBoxLayout * center_layout);
+
     void init_center_panel();
     void init_right_panel();
     void init_seed_menu(QVBoxLayout *center_layout);

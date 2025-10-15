@@ -2,24 +2,11 @@
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    maze = new Maze(1000, 1000);
+    maze = new Maze(100, 50);
     initUI();
 }
 
-void MainWindow::initUI() {
-    setWindowTitle("Maze");
-    //init layout
-    central = new QWidget(this);
-    layout = new QVBoxLayout(central);
-    central->setLayout(layout);
-
-    editor = new QLabel("Main workspace");
-    mazeWidget = new MazeWidget(*maze, this);
-
-    //Split config and interface
-    splitter = new QSplitter(Qt::Vertical, this);
-
-    //init MazeConfig
+void MainWindow::initialize_maze_configuration() {
     mazeConfig = new MazeConfigurationGui();
 
     splitter->addWidget(mazeWidget);
@@ -29,5 +16,32 @@ void MainWindow::initUI() {
     splitter->setCollapsible(1, false);
 
     setCentralWidget(splitter);
+}
+
+void MainWindow::initUI() {
+    setWindowTitle("Maze");
+    //init layout
+    central = new QWidget(this);
+    layout = new QVBoxLayout(central);
+    central->setLayout(layout);
+
+    splitter = new QSplitter(Qt::Vertical, this);
+
+    mazeWidget = new MazeWidget(*maze, this);
+
+    initialize_maze_configuration();
+
+    connect(mazeConfig, &MazeConfigurationGui::generate_maze, this,
+            [this](int width, int height, const QString& algorithm, const int seed) {
+
+        delete maze;
+        maze = new Maze(width, height);
+        maze->setSeed(seed);
+
+        maze->generate(algorithm.toStdString());
+
+        mazeWidget->drawMaze(*maze);
+    });
+
 }
 

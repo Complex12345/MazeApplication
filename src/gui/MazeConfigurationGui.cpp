@@ -65,8 +65,11 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
 
     // generate random seed button
     generate_button = new QPushButton("Generate", container_widget);
+    random_button = new QPushButton("Random", container_widget);
 
-    connect(generate_button, &QPushButton::clicked, this, [seed_input, validator]() {
+
+
+    connect(random_button, &QPushButton::clicked, this, [seed_input, validator]() {
         const int min = validator->bottom();
         const int max = validator->top();
         const int seed = QRandomGenerator::global()->bounded(min, max);
@@ -77,8 +80,21 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
     horizontal_layout->addWidget(seed_label);
     horizontal_layout->addWidget(seed_input);
     horizontal_layout->addWidget(generate_button);
+    horizontal_layout->addWidget(random_button);
     center_layout->addWidget(container_widget);
 }
+
+void MazeConfigurationGui::init_generation_type_menu(QVBoxLayout *center_layout) {
+
+    gen_algorithm_box = new QComboBox(center_layout->parentWidget());
+
+    for (const auto &pair : gen_algo_map) {
+        gen_algorithm_box->addItem(pair.second, static_cast<int>(pair.first));
+    }
+
+    center_layout->addWidget(gen_algorithm_box);
+}
+
 
 void MazeConfigurationGui::init_maze_config_menu(QVBoxLayout *center_layout) {
     auto *container_widget = new QWidget(center_layout->parentWidget());
@@ -90,8 +106,10 @@ void MazeConfigurationGui::init_maze_config_menu(QVBoxLayout *center_layout) {
 void MazeConfigurationGui::init_center_panel() {
     std::cout << "init center" << std::endl;
     auto *center_layout = new QVBoxLayout(center_panel);
+    center_layout->setAlignment(Qt::AlignTop);
 
     init_seed_menu(center_layout);
+    init_generation_type_menu(center_layout);
 }
 
 // Right Panel
