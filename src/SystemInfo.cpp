@@ -44,5 +44,4 @@ std::vector<std::string> getGpuNames() {
     }
 
     return devices;
-
 }

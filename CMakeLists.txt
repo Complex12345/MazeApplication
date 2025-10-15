@@ -25,11 +25,22 @@ add_executable(MyQtCudaProject
         include/Maze.h
         include/MazeConfigurationGui.h
         include/cuda/kernel.cu
+        include/MazeGenerator.h
+        include/MazeWidget.h
 )
 
 add_executable(testCpuName
         test/testSystemInfo.cpp
         src/SystemInfo.cpp
+)
+
+add_executable(testMaze
+        test/MazeTest.cpp
+        include/Maze.h
+        src/Maze.cpp
+        include/MazeGenerator.h
+        src/maze/MazeGenerator.cpp
+        src/maze_cpu/DfsGeneratorCpu.cpp
 )
 
 target_link_libraries(MyQtCudaProject PRIVATE Qt6::Core Qt6::Widgets)

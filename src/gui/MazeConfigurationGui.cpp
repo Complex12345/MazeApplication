@@ -80,9 +80,17 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
     center_layout->addWidget(container_widget);
 }
 
+void MazeConfigurationGui::init_maze_config_menu(QVBoxLayout *center_layout) {
+    auto *container_widget = new QWidget(center_layout->parentWidget());
+    auto *horizontal_layout = new QHBoxLayout(container_widget);
+
+    auto *algorithm_label = new QLabel("Algorithm:", container_widget);
+}
+
 void MazeConfigurationGui::init_center_panel() {
     std::cout << "init center" << std::endl;
     auto *center_layout = new QVBoxLayout(center_panel);
+
     init_seed_menu(center_layout);
 }
 

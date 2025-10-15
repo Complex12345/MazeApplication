@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QSlider>
 #include <QCheckBox>
+#include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
 
@@ -50,6 +51,7 @@ private:
     void init_center_panel();
     void init_right_panel();
     void init_seed_menu(QVBoxLayout *center_layout);
+    void init_maze_config_menu(QVBoxLayout *center_layout);
 };
 
 #endif // MYQTCUDAPROJECT_MAZECONFIGURATIONGUI_H
