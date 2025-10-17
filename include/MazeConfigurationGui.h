@@ -34,6 +34,7 @@ private:
     QSpinBox *width_spin = nullptr;
     QSpinBox *height_spin = nullptr;
     QSpinBox *seed_spin = nullptr;
+    QLineEdit *seed_input = nullptr;
     QComboBox *gen_algorithm_box = nullptr;
     QComboBox *search_algorithm_box = nullptr;
     QComboBox *devices_box = nullptr;

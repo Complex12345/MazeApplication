@@ -60,7 +60,7 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
 
     // seed input + validator
     auto *validator = new QIntValidator(0, INT32_MAX, container_widget);
-    auto *seed_input = new QLineEdit(container_widget);
+    seed_input = new QLineEdit(container_widget);
     seed_input->setValidator(validator);
 
     // generate random seed button
@@ -69,7 +69,7 @@ void MazeConfigurationGui::init_seed_menu(QVBoxLayout *center_layout) {
 
 
 
-    connect(random_button, &QPushButton::clicked, this, [seed_input, validator]() {
+    connect(random_button, &QPushButton::clicked, this, [validator, this]() {
         const int min = validator->bottom();
         const int max = validator->top();
         const int seed = QRandomGenerator::global()->bounded(min, max);
@@ -131,6 +131,16 @@ void MazeConfigurationGui::init_maze() {
     init_right_panel();
 
     debug_widget({left_panel, center_panel, right_panel});
+
+    connect(generate_button, &QPushButton::clicked, this, [this]() {
+        int width = width_spin ? width_spin->value() : 10;
+        int height = height_spin ? height_spin->value() : 10;
+        QString algorithm = gen_algorithm_box ? gen_algorithm_box->currentText() : "DFS";
+        int seed = seed_input ? seed_input->text().toInt() : 0;
+
+        emit generate_maze(width, height, algorithm, seed);
+
+    });
 
     // Set up layout
     auto *horizontal_layout = new QHBoxLayout(this);

@@ -4,6 +4,7 @@
 #include "../../include/Maze.h"
 #include "../../include/MazeGenerator.h"
 
+
 class DfsGeneratorCpu: public MazeGenerator {
     static void mark_cell_as_visited(Maze &maze, std::vector<bool> visited, Maze::cell cell) {
         visited[cell.y * maze.getWidth() + cell.x] = true;
@@ -26,12 +27,13 @@ class DfsGeneratorCpu: public MazeGenerator {
         mark_cell_as_visited(maze, visited, random_cell);
 
 
-        while (!stack.empty()) {
-            Maze::cell current_cell = stack.top();
-
-
-
-        }
+        // while (!stack.empty()) {
+        //     Maze::cell current_cell = stack.top();
+        //
+        //
+        //
+        //
+        // }
 
 
 

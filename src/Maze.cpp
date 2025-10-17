@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "../include/MazeGenerator.h"
+#include "../src/maze_cpu/DfsGeneratorCpu.cpp"
+
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmove-const-arg"
@@ -68,8 +70,15 @@ void Maze::to_string() const {
 }
 
 void Maze::generate(const std::string &algorithm) {
+    std::cout << "Generating maze with " << algorithm << " algorithm and seed: " << seed << "\n";
     std::unique_ptr<MazeGenerator> generator;
 
+    if (algorithm == "Depth-First Search") {
+        generator = std::make_unique<DfsGeneratorCpu>();
+    } else {
+        std::cerr << "Unknown algorithm: " << algorithm << "\n";
+        return;
+    }
 
     generator->generate(*this);
 }

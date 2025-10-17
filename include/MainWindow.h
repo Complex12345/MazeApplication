@@ -48,6 +48,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
     void initialize_maze_configuration();
+
+    void init_maze_generation_button_action();
 };
 
 

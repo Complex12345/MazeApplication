@@ -8,7 +8,7 @@ class Maze;
 class MazeGenerator {
 public:
     virtual void generate(Maze& maze) = 0;
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
     virtual ~MazeGenerator() = default;
 
     std::vector<std::vector<int>> dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
