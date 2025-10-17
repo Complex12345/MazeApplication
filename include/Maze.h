@@ -2,6 +2,7 @@
 #define MYQTCUDAPROJECT_MAZE_H
 
 #include <cstdint>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -73,6 +74,8 @@ private:
     const int height;
     unsigned int seed;
     static constexpr uint8_t WALL = NORTH | EAST | SOUTH | WEST;
+
+    static uint8_t pick_random_wall(std::mt19937 rng);
 };
 
 #endif // MYQTCUDAPROJECT_MAZE_H

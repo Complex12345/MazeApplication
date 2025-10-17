@@ -40,6 +40,7 @@ private:
 
 
     void initUI();
+    void connect_signals();
 
 
 

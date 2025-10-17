@@ -8,6 +8,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     initUI();
 }
 
+void MainWindow::connect_signals() {
+    connect(mazeConfig, &MazeConfigurationGui::generate_maze, this,
+            [this](int width, int height, const QString& algorithm, const int seed) {
+
+                delete maze;
+                maze = new Maze(width, height);
+                maze->setSeed(seed);
+
+                maze->generate(algorithm.toStdString());
+
+                mazeWidget->drawMaze(*maze);
+            });
+
+}
+
+
+
 void MainWindow::initialize_maze_configuration() {
 
     mazeConfig = new MazeConfigurationGui();
@@ -21,19 +38,7 @@ void MainWindow::initialize_maze_configuration() {
     setCentralWidget(splitter);
 }
 
-void MainWindow::init_maze_generation_button_action() {
-    connect(mazeConfig, &MazeConfigurationGui::generate_maze, this,
-            [this](int width, int height, const QString& algorithm, const int seed) {
 
-                delete maze;
-                maze = new Maze(width, height);
-                maze->setSeed(seed);
-
-                maze->generate(algorithm.toStdString());
-
-                mazeWidget->drawMaze(*maze);
-            });
-}
 
 void MainWindow::initUI() {
     setWindowTitle("Maze");
@@ -48,7 +53,7 @@ void MainWindow::initUI() {
 
     initialize_maze_configuration();
 
-    init_maze_generation_button_action();
+    connect_signals();
 
 
 }

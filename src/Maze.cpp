@@ -83,6 +83,8 @@ void Maze::generate(const std::string &algorithm) {
     generator->generate(*this);
 }
 
-
+uint8_t Maze::pick_random_wall(std::mt19937 rng) {
+    return static_cast<uint8_t>(rng() % 4);
+}
 
 #pragma clang diagnostic pop
