@@ -96,11 +96,29 @@ void MazeConfigurationGui::init_generation_type_menu(QVBoxLayout *center_layout)
 }
 
 
-void MazeConfigurationGui::init_maze_config_menu(QVBoxLayout *center_layout) {
+
+
+void MazeConfigurationGui::init_maze_size(QVBoxLayout *center_layout) {
+
     auto *container_widget = new QWidget(center_layout->parentWidget());
     auto *horizontal_layout = new QHBoxLayout(container_widget);
 
-    auto *algorithm_label = new QLabel("Algorithm:", container_widget);
+    width_spin = new QSpinBox(container_widget);
+    width_spin->setRange(10, 200);
+    width_spin->setValue(10);
+
+    height_spin = new QSpinBox(container_widget);
+    height_spin->setRange(10, 200);
+    height_spin->setValue(10);
+
+    horizontal_layout->addWidget(new QLabel("Width:", container_widget));
+    horizontal_layout->addWidget(width_spin);
+    horizontal_layout->addWidget(new QLabel("Height:", container_widget));
+    horizontal_layout->addWidget(height_spin);
+    center_layout->addWidget(container_widget);
+
+
+
 }
 
 void MazeConfigurationGui::init_center_panel() {
@@ -108,8 +126,10 @@ void MazeConfigurationGui::init_center_panel() {
     auto *center_layout = new QVBoxLayout(center_panel);
     center_layout->setAlignment(Qt::AlignTop);
 
+    init_maze_size(center_layout);
     init_seed_menu(center_layout);
     init_generation_type_menu(center_layout);
+
 }
 
 // Right Panel

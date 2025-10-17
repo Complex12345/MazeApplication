@@ -57,14 +57,15 @@ private:
 
     // Initialization functions
     void init_maze();
-    void init_left_panel();
-
     void init_generation_type_menu(QVBoxLayout * center_layout);
+    void init_seed_menu(QVBoxLayout *center_layout);
 
+    void init_maze_size(QVBoxLayout *center_layout);
+
+    void init_left_panel();
     void init_center_panel();
     void init_right_panel();
-    void init_seed_menu(QVBoxLayout *center_layout);
-    void init_maze_config_menu(QVBoxLayout *center_layout);
+
 };
 
 #endif // MYQTCUDAPROJECT_MAZECONFIGURATIONGUI_H

@@ -2,11 +2,14 @@
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    maze = new Maze(100, 50);
+    constexpr int INTIAL_MAZE_SIZE = 10;
+    maze = new Maze(INTIAL_MAZE_SIZE, INTIAL_MAZE_SIZE);
+
     initUI();
 }
 
 void MainWindow::initialize_maze_configuration() {
+
     mazeConfig = new MazeConfigurationGui();
 
     splitter->addWidget(mazeWidget);
