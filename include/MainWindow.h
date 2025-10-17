@@ -18,6 +18,8 @@
 #include <QTimer>
 #include <QApplication>
 #include <QTextStream>
+#include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
 
 #include "MazeConfigurationGui.h"
 #include "MazeWidget.h"
@@ -37,10 +39,15 @@ private:
     QSplitter *splitter = nullptr;
     QWidget *configuration = nullptr;
     MazeConfigurationGui *mazeConfig = nullptr;
+    QLabel *statusLabel = nullptr;
+    QFutureWatcher<void> *mazeWatcher = nullptr;
 
 
     void initUI();
     void connect_signals();
+
+signals:
+    void mazeGenerated();
 
 
 

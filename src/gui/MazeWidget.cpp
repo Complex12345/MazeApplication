@@ -37,8 +37,12 @@ void MazeWidget::drawMaze(const Maze &maze) {
 
             if (cell & Maze::NORTH) painter.drawLine(x0, y0, x1, y0);
             if (cell & Maze::WEST)  painter.drawLine(x0, y0, x0, y1);
-            if (cell & Maze::EAST)  painter.drawLine(x1, y0, x1, y1);
-            if (cell & Maze::SOUTH) painter.drawLine(x0, y1, x1, y1);
+
+            if (x == maze.getWidth() - 1 && (cell & Maze::EAST))
+                painter.drawLine(x1, y0, x1, y1);
+            if (y == maze.getHeight() - 1 && (cell & Maze::SOUTH))
+                painter.drawLine(x0, y1, x1, y1);
+
         }
     }
 

@@ -43,23 +43,23 @@ class DfsGeneratorCpu: public MazeGenerator {
             if (check_for_at_least_1_unvisited_neighbour(maze, visited, current_cell)) {
                 int start = std::uniform_int_distribution<int>(0, 3)(rng);
                 for (int i = 0; i < 4; ++i) {
-                    int dir_index = (start + i) % 4;
-                    Maze::Direction dir = walls_array[dir_index];
+                    int pick_random_wall = (start + i) % 4;
+                    Maze::Direction dir = walls_array[pick_random_wall];
 
-                    int nx = current_cell.x + remove_walls_map[dir][0];
-                    int ny = current_cell.y + remove_walls_map[dir][1];
+                    int next_x = current_cell.x + remove_walls_map[dir][0];
+                    int next_y = current_cell.y + remove_walls_map[dir][1];
 
-                    if (!maze.is_valid(nx, ny)) continue;
-                    if (visited[ny * maze.getWidth() + nx]) continue;
+                    if (!maze.is_valid(next_x, next_y)) continue;
+                    if (visited[next_y * maze.getWidth() + next_x]) continue;
 
 
-                    Maze::cell next{nx, ny};
+                    Maze::cell next{next_x, next_y};
 
                     Maze::set_wall(maze.grid[current_cell.y * maze.getWidth() + current_cell.x], dir, false);
-                    Maze::set_wall(maze.grid[ny * maze.getWidth() + nx], opposite_wall[dir], false);
+                    Maze::set_wall(maze.grid[next_y * maze.getWidth() + next_x], opposite_wall[dir], false);
 
                     stack.push(next);
-                    visited[ny * maze.getWidth() + nx] = true;
+                    visited[next_y * maze.getWidth() + next_x] = true;
                     break;
                 }
 

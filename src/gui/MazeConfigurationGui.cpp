@@ -104,11 +104,11 @@ void MazeConfigurationGui::init_maze_size(QVBoxLayout *center_layout) {
     auto *horizontal_layout = new QHBoxLayout(container_widget);
 
     width_spin = new QSpinBox(container_widget);
-    width_spin->setRange(10, 200);
+    width_spin->setRange(10, 1000);
     width_spin->setValue(10);
 
     height_spin = new QSpinBox(container_widget);
-    height_spin->setRange(10, 200);
+    height_spin->setRange(10, 1000);
     height_spin->setValue(10);
 
     horizontal_layout->addWidget(new QLabel("Width:", container_widget));
