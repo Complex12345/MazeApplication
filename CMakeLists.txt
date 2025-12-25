@@ -52,15 +52,11 @@ if (CUDAToolkit_FOUND)
     target_compile_definitions(MyQtCudaProject PRIVATE USE_CUDA)
 endif()
 
-# Post-build steps for Windows: deploy Qt and copy CUDA DLLs
 if (WIN32)
-    # Path to windeployqt (Qt deployment tool)
     set(QT_DEPLOY_TOOL "C:/Qt/6.9.3/msvc2022_64/bin/windeployqt.exe")
 
-    # Path to CUDA runtime DLL
     set(CUDA_DLL_PATH "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.0/bin/x64/cudart64_13.dll")
 
-    # Run windeployqt after build
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(QT_DEPLOY_MODE "--debug")
     else()
